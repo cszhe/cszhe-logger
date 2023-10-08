@@ -1,0 +1,25 @@
+[project]
+name = "logger"
+description = "Blog Access logger"
+version = "1.0.0"
+authors = [
+    { name = "Jason He", email = "hezongjian@msn.com" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10"
+]
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pymysql",
+    "ipinfo"
+]
+
+[build-system]
+requires = [
+    "setuptools>=60"
+]
+build-backend = 'setuptools.build_meta'
