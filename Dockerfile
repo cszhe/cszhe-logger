@@ -18,5 +18,6 @@ WORKDIR /code
 COPY . /code
 RUN rm -rf /code/.git/
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install /code
 
 # put other files in docker-compose
