@@ -17,8 +17,10 @@ ipinfo_token = os.getenv("IPINFO_TOKEN", "")
 
 
 @app.get("/")
-def read_root():
+def read_root(request: Request):
     print(db_setting)
+    # print header
+    print(request.headers)
     return {"OK"}
 
 
@@ -51,7 +53,9 @@ def cszhe_logger(
     Log client access
     """
     print(page)
-    client_ip = request.client.host
+    # client_ip = request.client.host
+    # behind proxy
+    client_ip = request.headers['x-forwarded-for']
     user_agent = request.headers['user-agent']
     handler = ipinfo.getHandler(ipinfo_token)
 
