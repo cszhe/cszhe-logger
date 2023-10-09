@@ -53,36 +53,12 @@ def cszhe_logger(
     Log client access
     """
     print(page)
-    # client_ip = request.client.host
     # behind proxy
-    client_ip = request.headers['x-forwarded-for']
+    if 'x-forwarded-for' in request.headers:
+        client_ip = request.headers['x-forwarded-for']
+    else:
+        client_ip = request.client.host
     user_agent = request.headers['user-agent']
-    handler = ipinfo.getHandler(ipinfo_token)
-
-    details = handler.getDetails(client_ip)
-    all = details.all
-    print(all)
-    #
-    # {'ip': '211.140.195.141', 'city': 'Shanghai', 'region': 'Shanghai',
-    # 'country': 'CN', 'loc': '31.2222,121.4581',
-    # 'org': 'AS56044 China Mobile communications corporation',
-    # 'timezone': 'Asia/Shanghai', 'country_name': 'China',
-    # 'isEU': False,
-    # 'continent': {'code': 'AS', 'name': 'Asia'},
-    # 'latitude': '31.2222', 'longitude': '121.4581'}
-    access = {
-        "IP": client_ip,
-        "asOrganization": all.get('org', ''),
-        "country": all.get('country', ''),
-        "region": all.get('region', ''),
-        "postalCode": all.get('postal', ''),
-        "city": all.get('city', ''),
-        "latitude": all.get('latitude', ''),
-        "longitude": all.get('longitude', ''),
-        "timezone": all.get('timezone', ''),
-        "url": page,
-        "useragent": user_agent
-    }
 
     try:
         conn = pymysql.connect(
@@ -92,6 +68,42 @@ def cszhe_logger(
             db=db_setting['db_name'],
             cursorclass=pymysql.cursors.DictCursor
         )
+        # get details from our own DB
+        with conn.cursor() as cursor:
+            sql = '''
+            SELECT * FROM `Access` WHERE `IP`=%s
+            '''
+            cursor.execute(sql, (client_ip))
+            result = cursor.fetchone()
+            if result:
+                # we re-use the old data
+                print('use cache ip info')
+                access = result
+                access['useragent'] = user_agent
+                access['url'] = page
+            else:
+                # get details from IP info
+                print('request ip info from web service')
+                handler = ipinfo.getHandler(ipinfo_token)
+                details = handler.getDetails(client_ip)
+                all = details.all
+
+                access = {
+                    "IP": client_ip,
+                    "asOrganization": all.get('org', ''),
+                    "country": all.get('country', ''),
+                    "region": all.get('region', ''),
+                    "postalCode": all.get('postal', ''),
+                    "city": all.get('city', ''),
+                    "latitude": all.get('latitude', ''),
+                    "longitude": all.get('longitude', ''),
+                    "timezone": all.get('timezone', ''),
+                    "url": page,
+                    "useragent": user_agent
+                }
+            print(access)
+
+        # insert into database
         with conn.cursor() as cursor:
             sql = '''
             INSERT INTO `Access` (IP, asOrganization, country, region,
