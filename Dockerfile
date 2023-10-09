@@ -7,13 +7,14 @@ ENV PYTHONUNBUFFERED=1
 ENV TZ=Pacific/Auckland
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt install -y tzdata && \
-    echo "Pacific/Auckland" > /etc/timezone && \
-    dpkg-reconfigure -f noninteractive tzdata
-
 # install necessary packages
 RUN apt update && apt-get upgrade -y
 RUN apt install -y python3-pip && pip3 install --upgrade pip
+
+# ajust time to Auckland
+RUN apt install -y tzdata && \
+    echo "Pacific/Auckland" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata
 
 # copy code
 # install the code
