@@ -1,11 +1,15 @@
 from ubuntu:jammy
 
+# disable python buffer
+ENV PYTHONUNBUFFERED=1
+
 # ajust time to Auckland
 ENV TZ=Pacific/Auckland
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# disable python buffer
-ENV PYTHONUNBUFFERED=1
+RUN apt install -y tzdata && \
+    echo "Pacific/Auckland" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata
 
 # install necessary packages
 RUN apt update && apt-get upgrade -y
