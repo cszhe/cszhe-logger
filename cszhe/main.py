@@ -60,17 +60,26 @@ def cszhe_logger(
     handler = ipinfo.getHandler(ipinfo_token)
 
     details = handler.getDetails(client_ip)
-    print(details.all)
+    all = details.all
+    print(all)
+    #
+    # {'ip': '211.140.195.141', 'city': 'Shanghai', 'region': 'Shanghai',
+    # 'country': 'CN', 'loc': '31.2222,121.4581',
+    # 'org': 'AS56044 China Mobile communications corporation',
+    # 'timezone': 'Asia/Shanghai', 'country_name': 'China',
+    # 'isEU': False,
+    # 'continent': {'code': 'AS', 'name': 'Asia'},
+    # 'latitude': '31.2222', 'longitude': '121.4581'}
     access = {
         "IP": client_ip,
-        "asOrganization": details.org,
-        "country": details.country,
-        "region": details.region,
-        "postalCode": details.postal,
-        "city": details.city,
-        "latitude": details.latitude,
-        "longitude": details.longitude,
-        "timezone": details.timezone,
+        "asOrganization": all.get('org', ''),
+        "country": all.get('country', ''),
+        "region": all.get('region', ''),
+        "postalCode": all.get('postal', ''),
+        "city": all.get('city', ''),
+        "latitude": all.get('latitude', ''),
+        "longitude": all.get('longitude', ''),
+        "timezone": all.get('timezone', ''),
         "url": page,
         "useragent": user_agent
     }
