@@ -42,5 +42,6 @@ def main():
             cursor.execute(sql)
         conn.commit()
 
+
 if __name__ == "__main__":
     main()

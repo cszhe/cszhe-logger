@@ -17,3 +17,20 @@ CREATE TABLE IF NOT EXISTS Access (
     url NVARCHAR(512),
 	useragent NVARCHAR(1024)
 	);
+
+CREATE TABLE IF NOT EXISTS UserAgent (
+	AgentID INTEGER PRIMARY KEY AUTO_INCREMENT,
+	AccessID INTEGER FOREIGN KEY REFERENCES Access(AccessCount),
+	AgentString NVARCHAR(1024),
+	Browser_Family NVARCHAR(128),
+	Browser_Version NVARCHAR(128),
+	OS_Family NVARCHAR(128),
+	OS_Version NVARCHAR(128),
+	Device_Family NVARCHAR(128),
+	Device_Brand NVARCHAR(128),
+	IsMobile BOOLEAN,
+	IsTablet BOOLEAN,
+	IsPC BOOLEAN,
+	IsTouchCapable BOOLEAN,
+	IsBot BOOLEAN
+);
