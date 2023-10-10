@@ -24,8 +24,17 @@ def main():
         sql = "SELECT * FROM `Access`;"
         cursor.execute(sql)
         result = cursor.fetchall()
+        # skip parsed data
+        sql = "SELECT `AccessID` FROM `UserAgent`;"
+        cursor.execute(sql)
+        parsed = cursor.fetchall()
+        parsed = [item['AccessID'] for item in parsed]
         for item in result:
             agent_str = item['useragent']
+            AccessID = item['AccessCount']
+            if AccessID in parsed:
+                print(f"Skip {AccessID}")
+                continue
             ua = parse(agent_str)
             sql = f"INSERT INTO `UserAgent` \
                 (`AccessID`, `AgentString`, \
