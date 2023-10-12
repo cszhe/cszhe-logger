@@ -16,6 +16,9 @@ RUN apt install -y tzdata && \
     echo "Pacific/Auckland" > /etc/timezone && \
     dpkg-reconfigure -f noninteractive tzdata
 
+# additional packages
+RUN apt install -y curl
+
 # copy code
 # install the code
 RUN  mkdir /code
