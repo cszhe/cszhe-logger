@@ -26,5 +26,5 @@ IPInfo API token:
 
 - IPINFO_TOKEN
 
-The user agent parser `agent_parser.py` is a separate programme from the web service. It is a Python3 script. You need to run it separately. The script will read the raw user agent string from the database and parse the user agent information. Then it will update the database with the parsed information. It's recommended to run it in a crontab.
+The user agent parser `agent_parser.py` is a separate programme from the web service. It is a Python3 script. You need to run it separately. The script will read the raw user agent string from the database and parse the user agent information with the [user_agents](https://pypi.org/project/user-agents/) library. Then it will update the database with the parsed information. It's recommended to run it in a crontab.
 
