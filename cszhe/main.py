@@ -19,7 +19,7 @@ ipinfo_token = os.getenv("IPINFO_TOKEN", "")
 @app.get("/")
 def read_root(request: Request):
     print(db_setting)
-    # print header
+    # display headers
     print(request.headers)
     return {"OK"}
 
@@ -86,18 +86,18 @@ def cszhe_logger(
                 print('request ip info from web service')
                 handler = ipinfo.getHandler(ipinfo_token)
                 details = handler.getDetails(client_ip)
-                all = details.all
+                info = details.all
 
                 access = {
                     "IP": client_ip,
-                    "asOrganization": all.get('org', ''),
-                    "country": all.get('country', ''),
-                    "region": all.get('region', ''),
-                    "postalCode": all.get('postal', ''),
-                    "city": all.get('city', ''),
-                    "latitude": all.get('latitude', ''),
-                    "longitude": all.get('longitude', ''),
-                    "timezone": all.get('timezone', ''),
+                    "asOrganization": info.get('org', ''),
+                    "country": info.get('country', ''),
+                    "region": info.get('region', ''),
+                    "postalCode": info.get('postal', ''),
+                    "city": info.get('city', ''),
+                    "latitude": info.get('latitude', ''),
+                    "longitude": info.get('longitude', ''),
+                    "timezone": info.get('timezone', ''),
                     "url": page,
                     "useragent": user_agent
                 }

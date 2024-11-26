@@ -31,9 +31,9 @@ def main():
         parsed = [item['AccessID'] for item in parsed]
         for item in result:
             agent_str = item['useragent']
-            AccessID = item['AccessCount']
-            if AccessID in parsed:
-                print(f"Skip {AccessID}")
+            access_id = item['AccessCount']
+            if access_id in parsed:
+                print(f"Skip {access_id}")
                 continue
             ua = parse(agent_str)
             sql = f"INSERT INTO `UserAgent` \
