@@ -1,4 +1,4 @@
-from ubuntu:noble
+FROM ubuntu:noble
 
 # disable python buffer
 ENV PYTHONUNBUFFERED=1
