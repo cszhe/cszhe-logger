@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  # rebuild on demand to refresh the ubuntu base and Python dependencies
+  workflow_dispatch:
 
 jobs:
   buildx:
